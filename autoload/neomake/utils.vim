@@ -683,3 +683,16 @@ function! neomake#utils#highlight_is_defined(group) abort
     endif
     return neomake#utils#parse_highlight(a:group) !=# 'cleared'
 endfunction
+
+if exists('*nvim_buf_line_count')
+function! neomake#utils#get_buf_line_count(bufnr) abort
+    return nvim_buf_line_count(a:bufnr)
+endfunction
+else
+function! neomake#utils#get_buf_line_count(bufnr) abort
+    if a:bufnr == bufnr('%')
+        return line('$')
+    endif
+    return len(getbufline(a:bufnr, 1, '$'))
+endfunction
+endif

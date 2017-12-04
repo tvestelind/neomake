@@ -761,3 +761,15 @@ Execute (neomake#utils#DebugMessage throws with missing make_options in tests):
   " Non-existing make_id should not make it verbose.
   AssertThrows call neomake#utils#DebugMessage('msg1', {'make_id': -42})
   AssertEqual g:vader_exception, 'Vim(return):E716: Key not present in Dictionary: -42'
+
+Execute (neomake#utils#get_buf_line_count):
+  new
+  let bufnr = bufnr('%')
+  norm! 7o
+  AssertEqual line('$'), 8
+  AssertEqual neomake#utils#get_buf_line_count(bufnr), 8
+
+  new
+  AssertEqual neomake#utils#get_buf_line_count(bufnr), 8
+  bwipe
+  bwipe!
